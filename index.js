@@ -1,7 +1,8 @@
 "use strict";
 
 document.querySelector(".nav__btn").addEventListener("click", () => {
-  document.querySelector(".hidden").classList.toggle;
+  if (document.querySelector(".nav__list").classList.toggle("hidden")) {
+  }
 });
 
 //Fetching data
