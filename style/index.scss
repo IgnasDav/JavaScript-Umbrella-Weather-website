@@ -1,0 +1,63 @@
+//COlORS
+$main-dark-purple: #0c0032;
+$main-dark-purple1: #190061;
+$main-dark-purple2: #240090;
+$main-dark-blue: #3500d3;
+$main-dark: #282828;
+$main-white: #fff;
+$main-lightblue: #ade8f4;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+.header {
+  font-family: "Inconsolata", monospace;
+  text-transform: uppercase;
+  width: 100%;
+  background-color: $main-lightblue;
+
+  &__heading {
+    padding: 2rem;
+    font-size: 2.4rem;
+    color: $main-white;
+    letter-spacing: 0.5rem;
+  }
+}
+.nav {
+  width: 100%;
+  text-align: end;
+  &__btn {
+    background-color: none;
+    color: $main-lightblue;
+    font-size: 2.8rem;
+    text-align: right;
+    padding: 2rem 4rem;
+  }
+  &__list {
+    letter-spacing: 1rem;
+    text-transform: uppercase;
+    font-family: "Inconsolata", monospace;
+    display: block;
+    width: 100%;
+    list-style: none;
+    font-size: 1.8rem;
+    padding: 2rem;
+    text-align: center;
+    &__item a {
+      text-decoration: none;
+      color: $main-lightblue;
+    }
+    &__item:hover {
+    }
+  }
+}
+.hidden {
+  display: none;
+}

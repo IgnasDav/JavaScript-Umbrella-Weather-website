@@ -1,0 +1,63 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.header {
+  font-family: "Inconsolata", monospace;
+  text-transform: uppercase;
+  width: 100%;
+  background-color: #ade8f4;
+}
+
+.header__heading {
+  padding: 2rem;
+  font-size: 2.4rem;
+  color: #fff;
+  letter-spacing: 0.5rem;
+}
+
+.nav {
+  width: 100%;
+  text-align: end;
+}
+
+.nav__btn {
+  background-color: none;
+  color: #ade8f4;
+  font-size: 2.8rem;
+  text-align: right;
+  padding: 2rem 4rem;
+}
+
+.nav__list {
+  letter-spacing: 1rem;
+  text-transform: uppercase;
+  font-family: "Inconsolata", monospace;
+  display: block;
+  width: 100%;
+  list-style: none;
+  font-size: 1.8rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.nav__list__item a {
+  text-decoration: none;
+  color: #ade8f4;
+}
+
+.hidden {
+  display: none;
+}
+/*# sourceMappingURL=index.css.map */
