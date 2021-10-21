@@ -22,6 +22,9 @@ html {
   text-transform: uppercase;
   width: 100%;
   background-color: $main-lightblue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   &__heading {
     padding: 2rem;
@@ -35,7 +38,7 @@ html {
   text-align: end;
   &__btn {
     background-color: none;
-    color: $main-lightblue;
+    color: $main-white;
     font-size: 2.8rem;
     text-align: right;
     padding: 2rem 4rem;
@@ -48,13 +51,78 @@ html {
     width: 100%;
     list-style: none;
     font-size: 1.8rem;
-    padding: 2rem;
     text-align: center;
+    &__item {
+      position: relative;
+      padding: 1rem 0;
+
+      &:not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+    }
+    &__item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 3px;
+      background-color: $main-white;
+      transform: scaleY(0);
+      transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s;
+    }
+    &__item:hover::before {
+      transform: scaleY(1);
+      width: 100%;
+    }
     &__item a {
+      z-index: 10;
+      position: relative;
       text-decoration: none;
+      color: $main-white;
+      transition: color;
+      transition-delay: 0.4s;
+    }
+    &__item:hover a {
       color: $main-lightblue;
     }
-    &__item:hover {
+  }
+}
+.main {
+  padding: 2rem;
+  display: grid;
+  justify-items: center;
+  &__arrow--right {
+    z-index: 10;
+    height: 5rem;
+    position: absolute;
+    cursor: pointer;
+    top: 40%;
+    right: 3%;
+    padding: 1.6rem;
+    border-radius: 6px 0 0 6px;
+  }
+  &__arrow--left {
+    z-index: 10;
+    height: 5rem;
+    position: absolute;
+    cursor: pointer;
+    top: 40%;
+    left: 3%;
+    padding: 1.6rem;
+    border-radius: 0 6px 6px 0;
+  }
+  &__arrow--left:hover,
+  &__arrow--right:hover {
+    background: #000000b5;
+  }
+  &__video {
+    &__mp4 {
+      // width: 100%;
+      // max-width: 130rem;
+      z-index: 1;
+      max-height: 100vh;
+      width: 100%;
     }
   }
 }
