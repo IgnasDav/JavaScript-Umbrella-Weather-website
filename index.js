@@ -49,12 +49,12 @@ const video = [
 
 //Making video slides
 function swipingRight() {
-  videoIndex === 5 ? (videoIndex = 0) : videoIndex++;
+  videoIndex === 4 ? (videoIndex = 0) : videoIndex++;
   console.log(videoIndex);
   videoEl.src = video[videoIndex].src;
 }
 function swipingLeft() {
-  videoIndex === -1 ? (videoIndex = 0) : videoIndex--;
+  videoIndex === 0 ? (videoIndex = 4) : videoIndex--;
   console.log(videoIndex);
   videoEl.src = video[videoIndex].src;
 }
