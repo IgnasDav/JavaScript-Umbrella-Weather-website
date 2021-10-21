@@ -1,10 +1,21 @@
 "use strict";
 //Global variables
+let videoIndex = 0;
 const videoEl = document.createElement("video");
 const rightArrow = document.createElement("img");
 const leftArrow = document.createElement("img");
 const main = document.querySelector(".main");
 const videoClass = document.createElement("div");
+const videoForecast = document.createElement("div");
+videoForecast.classList.add("main__video__forecast");
+let forecastCity = document.createElement("div");
+forecastCity.classList.add("main__video__forecast__city");
+let forecastCurrentTemp = document.createElement("div");
+forecastCurrentTemp.classList.add("main__video__forecast__currentTemp");
+let forecastWind = document.createElement("div");
+forecastWind.classList.add("main__video__forecast__wind");
+let forecastMain = document.createElement("div");
+forecastMain.classList.add("main__video__forecast__main");
 
 //Adding clases
 videoClass.classList.add("main__video");
@@ -51,7 +62,6 @@ const videoArr = [
 function swipingRight() {
   videoIndex === 4 ? (videoIndex = 0) : videoIndex++;
   videoEl.src = videoArr[videoIndex].src;
-  drawForecast();
 }
 function swipingLeft() {
   videoIndex === 0 ? (videoIndex = 4) : videoIndex--;
@@ -60,20 +70,8 @@ function swipingLeft() {
 
 function drawForecast() {
   //Creating Elements
-  const videoForecast = document.createElement("div");
-  videoForecast.classList.add("main__video__forecast");
-  let forecastCity = document.createElement("div");
-  forecastCity.classList.add("main__video__forecast__city");
-  let forecastCurrentTemp = document.createElement("div");
-  forecastCurrentTemp.classList.add("main__video__forecast__currentTemp");
-  let forecastWind = document.createElement("div");
-  forecastWind.classList.add("main__video__forecast__wind");
-  let forecastMain = document.createElement("div");
-  forecastMain.classList.add("main__video__forecast__main");
+
   //Emptying values
-  if (videoForecast) {
-    videoForecast.innerHTML = null;
-  }
 
   videoForecast.append(
     forecastCity,
@@ -81,11 +79,27 @@ function drawForecast() {
     forecastWind,
     forecastMain
   );
-  videoClass.append(videoForecast);
+  videoClass.prepend(videoForecast);
   //Adding Forecasts to the video
-  videoArr.forEach((video) => {
+  fetch(
+    `http://api.openweathermap.org/data/2.5/weather?q=${videoArr[videoIndex].name}&appid=06c40b664273d82a56d487ca67529fb8`
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then(
+      (result) => (
+        (forecastCity.textContent = `${result.name}`),
+        (forecastCity.textContent = `${result.name}`),
+        (forecastCurrentTemp.textContent = `${result.main.temp}`),
+        (forecastWind.textContent = `${result.wind.speed}`),
+        (forecastMain.textContent = `${result.weather[0].main}`)
+      )
+    );
+
+  if (videoIndex === 0) {
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${video.name}&appid=06c40b664273d82a56d487ca67529fb8`
+      `http://api.openweathermap.org/data/2.5/weather?q=Berlin&appid=06c40b664273d82a56d487ca67529fb8`
     )
       .then((response) => {
         return response.json();
@@ -99,11 +113,10 @@ function drawForecast() {
           (forecastMain.textContent = `${result.weather[0].main}`)
         )
       );
-  });
+  }
 }
 
 drawForecast();
-let videoIndex = 0;
 videoArr.forEach((singleVideo) => {
   //Creating elements
   videoEl.classList.add("main__video__mp4");
@@ -121,8 +134,12 @@ videoArr.forEach((singleVideo) => {
 //Adding event listener
 rightArrow.addEventListener("click", () => {
   swipingRight();
+  drawForecast();
 });
-leftArrow.addEventListener("click", swipingLeft);
+leftArrow.addEventListener("click", () => {
+  swipingLeft();
+  drawForecast();
+});
 
 //Fetching data
 // fetch(
@@ -139,7 +156,9 @@ leftArrow.addEventListener("click", swipingLeft);
 //     return response.json();
 //   })
 //   .then((result) => console.log("result", result));
-
 //Draw function
+// .then((response) => {
+//   return response.json();
+// })
 
 function renderCard() {}
