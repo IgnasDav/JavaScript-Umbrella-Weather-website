@@ -19,7 +19,7 @@ document.querySelector(".nav__btn").addEventListener("click", () => {
   document.querySelector(".nav__list").classList.toggle("hidden");
 });
 
-const video = [
+const videoArr = [
   {
     name: "Berlin",
     alt: "Berlin Timelapse",
@@ -50,17 +50,52 @@ const video = [
 //Making video slides
 function swipingRight() {
   videoIndex === 4 ? (videoIndex = 0) : videoIndex++;
-  console.log(videoIndex);
-  videoEl.src = video[videoIndex].src;
+  videoEl.src = videoArr[videoIndex].src;
 }
 function swipingLeft() {
   videoIndex === 0 ? (videoIndex = 4) : videoIndex--;
-  console.log(videoIndex);
-  videoEl.src = video[videoIndex].src;
+  videoEl.src = videoArr[videoIndex].src;
 }
 
+function drawForecast() {
+  let forecastCity = document.createElement("div");
+  forecastCity.classList.add("main__video__forecastCity");
+  const forecastCurrentTemp = document.createElement("div");
+  forecastCurrentTemp.classList.add("main__video__forecastCurrentTemp");
+  const forecastWind = document.createElement("div");
+  forecastWind.classList.add("main__video__forecastWind");
+  const forecastFeelsLike = document.createElement("div");
+  forecastFeelsLike.classList.add("main__video__forecastFeelsLike");
+  videoClass.append(
+    forecastCity,
+    forecastCurrentTemp,
+    forecastWind,
+    forecastFeelsLike
+  );
+  //Adding Forecasts to the video
+  videoArr.forEach((video) => {
+    if (video.name === "Vilnius") {
+      fetch(
+        `http://api.openweathermap.org/data/2.5/weather?q=${video.name}&appid=06c40b664273d82a56d487ca67529fb8`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then(
+          (result) =>
+            (forecastCity = document.createElement("div").textContent =
+              `${result.name}`)
+          // forecastCity.textContent = `${result.name}`;
+          // forecastCurrentTemp.textContent = `${result.main.temp}`;
+          // forecastWind.textContent = `${result.wind.speed}`;
+          // forecastFeelsLike.textContent = `${result.main.feels_like}`;
+        );
+    }
+  });
+}
+drawForecast();
 let videoIndex = 0;
-video.forEach((singleVideo) => {
+videoArr.forEach((singleVideo) => {
   //Creating elements
   videoEl.classList.add("main__video__mp4");
   videoClass.append(videoEl);
@@ -75,7 +110,9 @@ video.forEach((singleVideo) => {
   videoClass.append(rightArrow, leftArrow);
 });
 //Adding event listener
-rightArrow.addEventListener("click", swipingRight);
+rightArrow.addEventListener("click", () => {
+  swipingRight();
+});
 leftArrow.addEventListener("click", swipingLeft);
 
 //Fetching data
