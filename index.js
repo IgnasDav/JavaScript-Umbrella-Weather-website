@@ -51,6 +51,7 @@ const videoArr = [
 function swipingRight() {
   videoIndex === 4 ? (videoIndex = 0) : videoIndex++;
   videoEl.src = videoArr[videoIndex].src;
+  drawForecast();
 }
 function swipingLeft() {
   videoIndex === 0 ? (videoIndex = 4) : videoIndex--;
@@ -58,41 +59,49 @@ function swipingLeft() {
 }
 
 function drawForecast() {
+  //Creating Elements
+  const videoForecast = document.createElement("div");
+  videoForecast.classList.add("main__video__forecast");
   let forecastCity = document.createElement("div");
-  forecastCity.classList.add("main__video__forecastCity");
-  const forecastCurrentTemp = document.createElement("div");
-  forecastCurrentTemp.classList.add("main__video__forecastCurrentTemp");
-  const forecastWind = document.createElement("div");
-  forecastWind.classList.add("main__video__forecastWind");
-  const forecastFeelsLike = document.createElement("div");
-  forecastFeelsLike.classList.add("main__video__forecastFeelsLike");
-  videoClass.append(
+  forecastCity.classList.add("main__video__forecast__city");
+  let forecastCurrentTemp = document.createElement("div");
+  forecastCurrentTemp.classList.add("main__video__forecast__currentTemp");
+  let forecastWind = document.createElement("div");
+  forecastWind.classList.add("main__video__forecast__wind");
+  let forecastMain = document.createElement("div");
+  forecastMain.classList.add("main__video__forecast__main");
+  //Emptying values
+  if (videoForecast) {
+    videoForecast.innerHTML = null;
+  }
+
+  videoForecast.append(
     forecastCity,
     forecastCurrentTemp,
     forecastWind,
-    forecastFeelsLike
+    forecastMain
   );
+  videoClass.append(videoForecast);
   //Adding Forecasts to the video
   videoArr.forEach((video) => {
-    if (video.name === "Vilnius") {
-      fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=${video.name}&appid=06c40b664273d82a56d487ca67529fb8`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then(
-          (result) =>
-            (forecastCity = document.createElement("div").textContent =
-              `${result.name}`)
-          // forecastCity.textContent = `${result.name}`;
-          // forecastCurrentTemp.textContent = `${result.main.temp}`;
-          // forecastWind.textContent = `${result.wind.speed}`;
-          // forecastFeelsLike.textContent = `${result.main.feels_like}`;
-        );
-    }
+    fetch(
+      `http://api.openweathermap.org/data/2.5/weather?q=${video.name}&appid=06c40b664273d82a56d487ca67529fb8`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then(
+        (result) => (
+          (forecastCity.textContent = `${result.name}`),
+          (forecastCity.textContent = `${result.name}`),
+          (forecastCurrentTemp.textContent = `${result.main.temp}`),
+          (forecastWind.textContent = `${result.wind.speed}`),
+          (forecastMain.textContent = `${result.weather[0].main}`)
+        )
+      );
   });
 }
+
 drawForecast();
 let videoIndex = 0;
 videoArr.forEach((singleVideo) => {
