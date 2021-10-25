@@ -11,6 +11,7 @@ html {
   font-size: 62.5%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-family: "Inconsolata", monospace;
 }
 
 .header {
@@ -184,8 +185,58 @@ html {
 
 .main__video__mp4 {
   z-index: 1;
-  max-height: 80vh;
+  height: 80vh;
   width: 100%;
+}
+
+.main__form {
+  padding: 4rem;
+  position: relative;
+}
+
+.main__form__search {
+  height: 5rem;
+  width: 80rem;
+  border: none;
+  border-bottom: 3px solid #ade8f4;
+  font-size: 2.4rem;
+  font-family: inherit;
+}
+
+.main__form__search::-webkit-input-placeholder {
+  letter-spacing: 0.5rem;
+}
+
+.main__form__search:-ms-input-placeholder {
+  letter-spacing: 0.5rem;
+}
+
+.main__form__search::-ms-input-placeholder {
+  letter-spacing: 0.5rem;
+}
+
+.main__form__search::placeholder {
+  letter-spacing: 0.5rem;
+}
+
+.main__form__btn {
+  background-color: #ade8f4;
+  border: none;
+  height: 5rem;
+  font-family: inherit;
+  width: 18rem;
+  font-size: 2.4rem;
+  -webkit-clip-path: polygon(40% 0, 100% 1%, 100% 100%, 0% 100%);
+          clip-path: polygon(40% 0, 100% 1%, 100% 100%, 0% 100%);
+  position: absolute;
+  right: 4.7%;
+  top: 30%;
+  cursor: pointer;
+  color: #fff;
+}
+
+.main__form__btn:hover {
+  background-color: #89b7c0;
 }
 
 .hidden {

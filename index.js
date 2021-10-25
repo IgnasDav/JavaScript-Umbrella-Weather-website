@@ -70,9 +70,6 @@ function swipingLeft() {
 
 function drawForecast() {
   //Creating Elements
-
-  //Emptying values
-
   videoForecast.append(
     forecastCity,
     forecastCurrentTemp,
@@ -90,38 +87,20 @@ function drawForecast() {
     .then(
       (result) => (
         (forecastCity.textContent = `${result.name}`),
-        (forecastCity.textContent = `${result.name}`),
-        (forecastCurrentTemp.textContent = `${result.main.temp}`),
-        (forecastWind.textContent = `${result.wind.speed}`),
+        (forecastCurrentTemp.textContent = `${(
+          Number(result.main.temp) - 273.15
+        ).toFixed()} °C`),
+        (forecastWind.innerHTML = `Wind M/S ${result.wind.speed}  <i class="fas fa-wind"></i> `),
         (forecastMain.textContent = `${result.weather[0].main}`)
       )
     );
-
-  if (videoIndex === 0) {
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=Berlin&appid=06c40b664273d82a56d487ca67529fb8`
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then(
-        (result) => (
-          (forecastCity.textContent = `${result.name}`),
-          (forecastCity.textContent = `${result.name}`),
-          (forecastCurrentTemp.textContent = `${result.main.temp}`),
-          (forecastWind.textContent = `${result.wind.speed}`),
-          (forecastMain.textContent = `${result.weather[0].main}`)
-        )
-      );
-  }
 }
-
 drawForecast();
 videoArr.forEach((singleVideo) => {
   //Creating elements
   videoEl.classList.add("main__video__mp4");
   videoClass.append(videoEl);
-  main.append(videoClass);
+  main.prepend(videoClass);
   //Setting attributes
 
   videoEl.alt = singleVideo.alt;
@@ -141,6 +120,12 @@ leftArrow.addEventListener("click", () => {
   drawForecast();
 });
 
+document
+  .querySelector(".main__form__btn")
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    renderCard();
+  });
 //Fetching data
 // fetch(
 //   "http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=06c40b664273d82a56d487ca67529fb8"
@@ -161,4 +146,21 @@ leftArrow.addEventListener("click", () => {
 //   return response.json();
 // })
 
-function renderCard() {}
+function renderCard() {
+  fetch(
+    "http://api.openweathermap.org/data/2.5/weather?q=London&appid=06c40b664273d82a56d487ca67529fb8"
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      Object.entries(result.name)
+        .filter((item) => {
+          console.log(item);
+          return item.includes(document.querySelector("#search").value);
+        })
+        .forEach((item) => {
+          console.log(item);
+        });
+    });
+}

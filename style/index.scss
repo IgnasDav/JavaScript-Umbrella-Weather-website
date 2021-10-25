@@ -16,6 +16,7 @@ $main-lightblue: #ade8f4;
 html {
   font-size: 62.5%;
   box-sizing: border-box;
+  font-family: "Inconsolata", monospace;
 }
 .header {
   font-family: "Inconsolata", monospace;
@@ -148,8 +149,41 @@ html {
     }
     &__mp4 {
       z-index: 1;
-      max-height: 80vh;
+      height: 80vh;
       width: 100%;
+    }
+  }
+
+  &__form {
+    padding: 4rem;
+    position: relative;
+    &__search {
+      height: 5rem;
+      width: 80rem;
+      border: none;
+      border-bottom: 3px solid $main-lightblue;
+      font-size: 2.4rem;
+      font-family: inherit;
+    }
+    &__search::placeholder {
+      letter-spacing: 0.5rem;
+    }
+    &__btn {
+      background-color: $main-lightblue;
+      border: none;
+      height: 5rem;
+      font-family: inherit;
+      width: 18rem;
+      font-size: 2.4rem;
+      clip-path: polygon(40% 0, 100% 1%, 100% 100%, 0% 100%);
+      position: absolute;
+      right: 4.7%;
+      top: 30%;
+      cursor: pointer;
+      color: $main-white;
+    }
+    &__btn:hover {
+      background-color: #89b7c0;
     }
   }
 }
