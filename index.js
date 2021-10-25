@@ -7,23 +7,27 @@ const leftArrow = document.createElement("img");
 const main = document.querySelector(".main");
 const videoClass = document.createElement("div");
 const videoForecast = document.createElement("div");
-videoForecast.classList.add("main__video__forecast");
 let forecastCity = document.createElement("div");
-forecastCity.classList.add("main__video__forecast__city");
 let forecastCurrentTemp = document.createElement("div");
-forecastCurrentTemp.classList.add("main__video__forecast__currentTemp");
 let forecastWind = document.createElement("div");
-forecastWind.classList.add("main__video__forecast__wind");
 let forecastMain = document.createElement("div");
-forecastMain.classList.add("main__video__forecast__main");
+const cards = document.createElement("div");
 
 //Adding clases
+cards.classList.add("main__cards");
 videoClass.classList.add("main__video");
 rightArrow.classList.add("main__arrow--right");
 leftArrow.classList.add("main__arrow--left");
 rightArrow.src = "/img/arrow-right.png";
 leftArrow.src = "/img/arrow-left.png";
+videoForecast.classList.add("main__video__forecast");
+forecastCity.classList.add("main__video__forecast__city");
+forecastCurrentTemp.classList.add("main__video__forecast__currentTemp");
+forecastWind.classList.add("main__video__forecast__wind");
+forecastMain.classList.add("main__video__forecast__main");
 
+//Appending classes
+main.append(cards);
 //Nav button
 
 document.querySelector(".nav__btn").addEventListener("click", () => {
@@ -126,41 +130,34 @@ document
     event.preventDefault();
     renderCard();
   });
-//Fetching data
-// fetch(
-//   "http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=06c40b664273d82a56d487ca67529fb8"
-// )
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .then((result) => console.log("result", result));
-// fetch(
-//   "http://api.openweathermap.org/data/2.5/weather?q=London&appid=06c40b664273d82a56d487ca67529fb8"
-// )
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .then((result) => console.log("result", result));
-//Draw function
-// .then((response) => {
-//   return response.json();
-// })
 
 function renderCard() {
   fetch(
-    "http://api.openweathermap.org/data/2.5/weather?q=London&appid=06c40b664273d82a56d487ca67529fb8"
+    `http://api.openweathermap.org/data/2.5/weather?q=${
+      document.querySelector("#search").value
+    }&appid=06c40b664273d82a56d487ca67529fb8`
   )
     .then((response) => {
       return response.json();
     })
     .then((result) => {
-      Object.entries(result.name)
-        .filter((item) => {
-          console.log(item);
-          return item.includes(document.querySelector("#search").value);
-        })
-        .forEach((item) => {
-          console.log(item);
-        });
+      //Creating cards
+      const card = document.createElement("div");
+      const temp = document.createElement("div");
+      const city = document.createElement("div");
+      const wind = document.createElement("div");
+      const weatherCode = document.querySelector("div");
+      card.append(city, temp, weatherCode, wind);
+      city.textContent = `${result.name}`;
+      temp.textContent = `${(Number(result.main.temp) - 273.15).toFixed()} °C`;
+      weatherCode.textContent = `${result.weather[0].main}`;
+      wind.innerHTML = `Wind M/S ${result.wind.speed}  <i class="fas fa-wind"></i> `;
+      card.classList.add("main__card");
+      cards.append(card);
     });
+  // .catch((err) => {
+  //   const error = document.createElement("h2");
+  //   error.innerHTML = "Wrong City name";
+  //   document.querySelector(".main__form__btn").append(error);
+  // });
 }
