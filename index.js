@@ -218,9 +218,18 @@ function renderCard() {
           img.alt = imgArr[3].alt;
         }
         favorite.addEventListener("click", (event) => {
+          console.log(arr[0]);
           arr[0].favorite = !arr[0].favorite;
           const className = arr[0].favorite ? "fas" : "far";
           favorite.innerHTML = `<i class="${className} fa-star"></i>`;
+          if (arr[0].favorite) {
+            arr.push({
+              temp: `${(Number(result.main.temp) - 273.15).toFixed()}`,
+              city: `${result.name}`,
+              wind: `${result.wind.speed}`,
+              weatherCode: `${result.weather[0].main}`,
+            });
+          }
           arr.forEach((item, i) => {
             city.textContent = item.city;
             temp.textContent = item.temp;
@@ -228,12 +237,6 @@ function renderCard() {
             wind.innerHTML = item.wind;
             if (arr[i].favorite === true) {
               window.localStorage.setItem(DATA_KEY, JSON.stringify(arr[i]));
-              arr.push({
-                temp: `${(Number(result.main.temp) - 273.15).toFixed()}`,
-                city: `${result.name}`,
-                wind: `${result.wind.speed}`,
-                weatherCode: `${result.weather[0].main}`,
-              });
             }
           });
         });
