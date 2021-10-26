@@ -12,8 +12,12 @@ let forecastCurrentTemp = document.createElement("div");
 let forecastWind = document.createElement("div");
 let forecastMain = document.createElement("div");
 const cards = document.createElement("div");
+const error = document.createElement("h2");
+const DATA_KEY = "data";
 
 //Adding clases
+error.classList.add("main__cards__error");
+
 cards.classList.add("main__cards");
 videoClass.classList.add("main__video");
 rightArrow.classList.add("main__arrow--right");
@@ -33,7 +37,29 @@ main.append(cards);
 document.querySelector(".nav__btn").addEventListener("click", () => {
   document.querySelector(".nav__list").classList.toggle("hidden");
 });
-
+let arr = [];
+const imgArr = [
+  {
+    src: "https://cdn-icons-png.flaticon.com/512/116/116251.png",
+    alt: "Rain with Clouds",
+    name: "Rain",
+  },
+  {
+    src: "http://cdn.onlinewebfonts.com/svg/img_171.png",
+    alt: "Clouds",
+    name: "Clouds",
+  },
+  {
+    src: "https://www.holidify.com/images/logos/weather-icons/clear-day.svg",
+    alt: "Clear",
+    name: "Clear",
+  },
+  {
+    src: "https://cdn2.iconfinder.com/data/icons/weather-170/32/haze-512.png",
+    alt: "Mist",
+    name: "Mist",
+  },
+];
 const videoArr = [
   {
     name: "Berlin",
@@ -128,6 +154,7 @@ document
   .querySelector(".main__form__btn")
   .addEventListener("click", (event) => {
     event.preventDefault();
+
     renderCard();
   });
 
@@ -141,23 +168,88 @@ function renderCard() {
       return response.json();
     })
     .then((result) => {
-      //Creating cards
-      const card = document.createElement("div");
-      const temp = document.createElement("div");
-      const city = document.createElement("div");
-      const wind = document.createElement("div");
-      const weatherCode = document.querySelector("div");
-      card.append(city, temp, weatherCode, wind);
-      city.textContent = `${result.name}`;
-      temp.textContent = `${(Number(result.main.temp) - 273.15).toFixed()} °C`;
-      weatherCode.textContent = `${result.weather[0].main}`;
-      wind.innerHTML = `Wind M/S ${result.wind.speed}  <i class="fas fa-wind"></i> `;
-      card.classList.add("main__card");
-      cards.append(card);
+      if (document.querySelector(`#${result.name}`)) {
+        error.innerHTML = "There is a card with that name";
+        document.querySelector(".main__form").append(error);
+      } else {
+        arr.push({
+          favorite: false,
+        });
+        error.remove();
+        //Creating cards
+        const favorite = document.createElement("p");
+        favorite.innerHTML = `<i class="far fa-star"></i>`;
+        const img = document.createElement("img");
+        const card = document.createElement("div");
+        const temp = document.createElement("div");
+        const city = document.createElement("div");
+        const wind = document.createElement("div");
+        const weatherCode = document.createElement("div");
+        img.classList.add("main__cards__card__img");
+        favorite.classList.add("main__cards__card__fav");
+        temp.classList.add("main__cards__card__temp");
+        city.classList.add("main__cards__card__city");
+        wind.classList.add("main__cards__card__wind");
+        weatherCode.classList.add("main__cards__card__code");
+        card.id = `${result.name}`;
+        card.classList.add("main__cards__card");
+        card.append(favorite, img, city, weatherCode, temp, wind);
+        city.textContent = `${result.name} `;
+        temp.textContent = `${(
+          Number(result.main.temp) - 273.15
+        ).toFixed()} °C`;
+        weatherCode.textContent = `${result.weather[0].main}`;
+        wind.innerHTML = `Wind M/S ${result.wind.speed}  <i class="fas fa-wind"></i> `;
+        cards.append(card);
+        if (weatherCode.textContent === "Clouds") {
+          img.src = imgArr[1].src;
+          img.alt = imgArr[1].alt;
+        }
+        if (weatherCode.textContent === "Rain") {
+          img.src = imgArr[0].src;
+          img.alt = imgArr[0].alt;
+        }
+        if (weatherCode.textContent === "Clear") {
+          img.src = imgArr[2].src;
+          img.alt = imgArr[2].alt;
+        }
+        if (weatherCode.textContent === "Mist") {
+          img.src = imgArr[3].src;
+          img.alt = imgArr[3].alt;
+        }
+        favorite.addEventListener("click", (event) => {
+          arr[0].favorite = !arr[0].favorite;
+          const className = arr[0].favorite ? "fas" : "far";
+          favorite.innerHTML = `<i class="${className} fa-star"></i>`;
+          arr.forEach((item, i) => {
+            city.textContent = item.city;
+            temp.textContent = item.temp;
+            weatherCode.textContent = item.weatherCode;
+            wind.innerHTML = item.wind;
+            if (arr[i].favorite === true) {
+              window.localStorage.setItem(DATA_KEY, JSON.stringify(arr[i]));
+              arr.push({
+                temp: `${(Number(result.main.temp) - 273.15).toFixed()}`,
+                city: `${result.name}`,
+                wind: `${result.wind.speed}`,
+                weatherCode: `${result.weather[0].main}`,
+              });
+            }
+          });
+        });
+      }
     });
   // .catch((err) => {
   //   const error = document.createElement("h2");
   //   error.innerHTML = "Wrong City name";
-  //   document.querySelector(".main__form__btn").append(error);
+  //   document.querySelector(".main__form").append(error);
   // });
 }
+window.addEventListener("DOMContentLoaded", () => {
+  const storedArr = window.localStorage.getItem(DATA_KEY);
+  if (storedArr) {
+    arr = JSON.parse(storedArr);
+    console.log(arr);
+    renderCard();
+  }
+});

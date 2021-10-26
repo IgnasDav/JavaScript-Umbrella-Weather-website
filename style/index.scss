@@ -98,6 +98,42 @@ html {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 4rem;
+
+    &__card {
+      border: 1px solid $main-lightblue;
+      border-radius: 3rem;
+      width: 30rem;
+      height: 50rem;
+      padding: 2rem;
+      font-size: 2.4rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      text-align: center;
+      position: relative;
+
+      &__img {
+        justify-self: center;
+        width: 15rem;
+        border-bottom: 1px solid $main-lightblue;
+        grid-column: 1 / 3;
+        margin-top: 3rem;
+      }
+      &__city {
+      }
+      &__code {
+      }
+      &__temp {
+      }
+      &__wind {
+      }
+      &__fav {
+        grid-column: 2/3;
+        position: absolute;
+        top: 90%;
+        left: 60%;
+      }
+    }
   }
   &__arrow--right {
     z-index: 10;
