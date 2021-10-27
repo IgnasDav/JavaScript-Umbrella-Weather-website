@@ -173,8 +173,10 @@ function renderCard() {
       const wind = document.createElement("div");
       const weatherCode = document.createElement("div");
       const card = document.createElement("div");
-      const favorite = document.createElement("p");
-      const deleteBtn = document.createElement("p");
+      const favorite = document.createElement("div");
+      const deleteBtn = document.createElement("div");
+      favorite.classList.add("main__cards__card__fav");
+      deleteBtn.classList.add("main__cards__card__delete");
       favorite.innerHTML = `<i class="far fa-star"></i>`;
       img.classList.add("main__cards__card__img");
       card.append(img, weatherCode, city, temp, wind, favorite, deleteBtn);
