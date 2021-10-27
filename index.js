@@ -37,6 +37,7 @@ main.append(cards);
 document.querySelector(".nav__btn").addEventListener("click", () => {
   document.querySelector(".nav__list").classList.toggle("hidden");
 });
+let newArr = [];
 let arr = [];
 const imgArr = [
   {
@@ -160,49 +161,64 @@ document
     } else {
       error.remove();
       fetchData();
-      renderCard();
     }
   });
 function renderCard() {
-  console.log(arr);
   cards.innerHTML = null;
-  console.log(arr);
-  // cards.innerHTML = null;
+  if (Array.isArray(arr)) {
+    arr.forEach((item, i) => {
+      const img = document.createElement("img");
+      const temp = document.createElement("div");
+      const city = document.createElement("div");
+      const wind = document.createElement("div");
+      const weatherCode = document.createElement("div");
+      const card = document.createElement("div");
+      const favorite = document.createElement("p");
+      const deleteBtn = document.createElement("p");
+      favorite.innerHTML = `<i class="far fa-star"></i>`;
+      img.classList.add("main__cards__card__img");
+      card.append(img, weatherCode, city, temp, wind, favorite, deleteBtn);
+      cards.append(card);
+      card.classList.add("main__cards__card");
+      temp.textContent = item.temp;
+      city.textContent = item.city;
+      deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
+      wind.innerHTML = `${item.wind} <i class="fas fa-wind"></i>`;
+      weatherCode.textContent = item.weatherCode;
 
-  arr.forEach((item, i) => {
-    const img = document.createElement("img");
-    const temp = document.createElement("div");
-    const city = document.createElement("div");
-    const wind = document.createElement("div");
-    const weatherCode = document.createElement("div");
-    const card = document.createElement("div");
-    const favorite = document.createElement("p");
-    img.classList.add("main__cards__card__img");
-    card.append(img, weatherCode, city, temp, wind);
-    cards.append(card);
-    card.classList.add("main__cards__card");
-    temp.textContent = item.temp;
-    city.textContent = item.city;
-    wind.innerHTML = `${item.wind} <i class="fas fa-wind"></i>`;
-    weatherCode.textContent = item.weatherCode;
+      if (weatherCode.textContent === "Rain") {
+        img.src = imgArr[0].src;
+        img.alt = imgArr[0].alt;
+      }
+      if (weatherCode.textContent === "Clouds") {
+        img.src = imgArr[1].src;
+        img.alt = imgArr[1].alt;
+      }
+      if (weatherCode.textContent === "Clear") {
+        img.src = imgArr[2].src;
+        img.alt = imgArr[2].alt;
+      }
+      if (weatherCode.textContent === "Mist") {
+        img.src = imgArr[3].src;
+        img.alt = imgArr[3].alt;
+      }
 
-    if (weatherCode.textContent === "Rain") {
-      img.src = imgArr[0].src;
-      img.alt = imgArr[0].alt;
-    }
-    if (weatherCode.textContent === "Clouds") {
-      img.src = imgArr[1].src;
-      img.alt = imgArr[1].alt;
-    }
-    if (weatherCode.textContent === "Clear") {
-      img.src = imgArr[2].src;
-      img.alt = imgArr[2].alt;
-    }
-    if (weatherCode.textContent === "Mist") {
-      img.src = imgArr[3].src;
-      img.alt = imgArr[3].alt;
-    }
-  });
+      favorite.addEventListener("click", () => {
+        console.log(item);
+        const className = item.favorite ? "fas" : "far";
+        item.favorite = !item.favorite;
+        favorite.innerHTML = `<i class="${className} fa-star"></i>`;
+
+        if (item.favorite) {
+          window.localStorage.setItem(DATA_KEY, JSON.stringify(arr));
+        }
+      });
+      deleteBtn.addEventListener("click", () => {
+        arr.splice(i, 1);
+        renderCard();
+      });
+    });
+  }
 }
 
 function fetchData() {
@@ -233,6 +249,7 @@ function fetchData() {
             wind: `Wind ${result.wind.speed} M/S `,
             weatherCode: `${result.weather[0].main}`,
           });
+          renderCard();
         }
       }
       // .catch((err) => {
@@ -244,7 +261,7 @@ function fetchData() {
 }
 window.addEventListener("DOMContentLoaded", () => {
   const storedArr = window.localStorage.getItem(DATA_KEY);
-  if (storedArr) {
+  if (storedArr.length >= 2) {
     arr = JSON.parse(storedArr);
     console.log(arr);
     renderCard();
