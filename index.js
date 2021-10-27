@@ -154,10 +154,57 @@ document
   .querySelector(".main__form__btn")
   .addEventListener("click", (event) => {
     event.preventDefault();
-    renderCard();
-    fetchData();
+    if (document.querySelector("#search").value === "") {
+      error.innerHTML = "Empty or wrong value";
+      document.querySelector(".main__form").append(error);
+    } else {
+      error.remove();
+      fetchData();
+      renderCard();
+    }
   });
-function renderCard() {}
+function renderCard() {
+  console.log(arr);
+  cards.innerHTML = null;
+  console.log(arr);
+  // cards.innerHTML = null;
+
+  arr.forEach((item, i) => {
+    const img = document.createElement("img");
+    const temp = document.createElement("div");
+    const city = document.createElement("div");
+    const wind = document.createElement("div");
+    const weatherCode = document.createElement("div");
+    const card = document.createElement("div");
+    const favorite = document.createElement("p");
+    img.classList.add("main__cards__card__img");
+    card.append(img, weatherCode, city, temp, wind);
+    cards.append(card);
+    card.classList.add("main__cards__card");
+    temp.textContent = item.temp;
+    city.textContent = item.city;
+    wind.innerHTML = `${item.wind} <i class="fas fa-wind"></i>`;
+    weatherCode.textContent = item.weatherCode;
+
+    if (weatherCode.textContent === "Rain") {
+      img.src = imgArr[0].src;
+      img.alt = imgArr[0].alt;
+    }
+    if (weatherCode.textContent === "Clouds") {
+      img.src = imgArr[1].src;
+      img.alt = imgArr[1].alt;
+    }
+    if (weatherCode.textContent === "Clear") {
+      img.src = imgArr[2].src;
+      img.alt = imgArr[2].alt;
+    }
+    if (weatherCode.textContent === "Mist") {
+      img.src = imgArr[3].src;
+      img.alt = imgArr[3].alt;
+    }
+  });
+}
+
 function fetchData() {
   fetch(
     `http://api.openweathermap.org/data/2.5/weather?q=${
@@ -169,21 +216,24 @@ function fetchData() {
     })
     .then(
       (result) => {
-        //Try forEach for catching errors
-        console.log(arr.city);
-        if (arr.includes(arr.city)) {
+        const value = document.querySelector("#search").value;
+        if (
+          arr.some((item) => {
+            return item.city.toLowerCase() === value.toLowerCase();
+          })
+        ) {
           error.innerHTML = "There is a card with that name";
           document.querySelector(".main__form").append(error);
         } else {
+          error.remove();
           arr.push({
             favorite: false,
-            temp: `${(Number(result.main.temp) - 273.15).toFixed()}`,
+            temp: `${(Number(result.main.temp) - 273.15).toFixed()} °C`,
             city: `${result.name}`,
-            wind: `${result.wind.speed}`,
+            wind: `Wind ${result.wind.speed} M/S `,
             weatherCode: `${result.weather[0].main}`,
           });
         }
-        console.log(arr);
       }
       // .catch((err) => {
       //   const error = document.createElement("h2");
