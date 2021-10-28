@@ -189,6 +189,7 @@ function renderCard() {
       city.textContent = item.city;
       deleteBtn.innerHTML = `<i class="fas fa-times"></i>`;
       wind.innerHTML = `${item.wind} <i class="fas fa-wind"></i>`;
+      card.slot = i;
       weatherCode.textContent = item.weatherCode;
 
       if (weatherCode.textContent === "Rain") {
@@ -235,9 +236,9 @@ function renderCard() {
 
     function dragDrop(e) {
       e.preventDefault();
-      console.log(i, card);
-      console.log(arr.splice(i, 1));
-      arr.splice(i, 1).splice(i + 1);
+
+      arr.splice(0, 0, arr.splice(i, 1)[0]);
+
       renderCard();
     }
   });
