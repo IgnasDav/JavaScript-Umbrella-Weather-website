@@ -175,16 +175,19 @@ function renderCard() {
       const card = document.createElement("div");
       const favorite = document.createElement("div");
       const deleteBtn = document.createElement("div");
+      card.draggable = true;
+      img.draggable = false;
       favorite.classList.add("main__cards__card__fav");
       deleteBtn.classList.add("main__cards__card__delete");
       favorite.innerHTML = `<i class="far fa-star"></i>`;
       img.classList.add("main__cards__card__img");
+      card.id = "card";
       card.append(img, weatherCode, city, temp, wind, favorite, deleteBtn);
       cards.append(card);
       card.classList.add("main__cards__card");
       temp.textContent = item.temp;
       city.textContent = item.city;
-      deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
+      deleteBtn.innerHTML = `<i class="fas fa-times"></i>`;
       wind.innerHTML = `${item.wind} <i class="fas fa-wind"></i>`;
       weatherCode.textContent = item.weatherCode;
 
@@ -204,9 +207,7 @@ function renderCard() {
         img.src = imgArr[3].src;
         img.alt = imgArr[3].alt;
       }
-
       favorite.addEventListener("click", () => {
-        console.log(item);
         const className = item.favorite ? "fas" : "far";
         item.favorite = !item.favorite;
         favorite.innerHTML = `<i class="${className} fa-star"></i>`;
@@ -215,13 +216,55 @@ function renderCard() {
           window.localStorage.setItem(DATA_KEY, JSON.stringify(arr));
         }
       });
+
       deleteBtn.addEventListener("click", () => {
         arr.splice(i, 1);
+        window.localStorage.setItem(DATA_KEY, JSON.stringify(arr));
         renderCard();
       });
     });
   }
+  //Drag functionality
+  document.querySelectorAll(".main__cards__card").forEach((card, i) => {
+    card.addEventListener("dragstart", dragStart);
+    card.addEventListener("dragend", dragEnd);
+    card.addEventListener("dragover", dragOver);
+    card.addEventListener("dragenter", dragEnter);
+    card.addEventListener("dragleave", dragLeave);
+    card.addEventListener("drop", dragDrop);
+
+    function dragDrop(e) {
+      e.preventDefault();
+      console.log(i, card);
+      console.log(arr.splice(i, 1));
+      arr.splice(i, 1).splice(i + 1);
+      renderCard();
+    }
+  });
+
+  //Drag functionality functions
+  function dragStart() {
+    setTimeout(() => this.classList.add("invisible"), 0);
+  }
+  function dragOver(e) {
+    // console.log(e);
+    e.preventDefault();
+  }
+  function dragEnd() {
+    this.classList.remove("invisible");
+  }
+  function dragEnter() {}
+  function dragLeave() {}
+  function dragDrop(e) {
+    if (e.target.innerHTML != card.innerHTML) {
+      // console.log(i);
+      console.log(card);
+      //Call render card function by switching up the items in the array
+    }
+  }
 }
+
+//Adding draggability
 
 function fetchData() {
   fetch(
@@ -265,7 +308,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const storedArr = window.localStorage.getItem(DATA_KEY);
   if (storedArr.length >= 2) {
     arr = JSON.parse(storedArr);
-    console.log(arr);
     renderCard();
   }
 });
