@@ -30,6 +30,11 @@ html {
           align-items: center;
 }
 
+.header--dark-mode {
+  background-color: #0c0032;
+  color: #fff;
+}
+
 .header__heading {
   padding: 2rem;
   font-size: 2.4rem;
@@ -114,6 +119,10 @@ html {
   justify-items: center;
 }
 
+.main--dark-mode {
+  background-color: #190061;
+}
+
 .main__cards {
   width: 100%;
   display: -ms-grid;
@@ -126,6 +135,7 @@ html {
 
 .main__cards__card {
   border: 1px solid #ade8f4;
+  color: #282828;
   border-radius: 3rem;
   width: 30rem;
   height: 50rem;
@@ -137,6 +147,11 @@ html {
       grid-template-columns: repeat(2, 1fr);
   text-align: center;
   position: relative;
+}
+
+.main__cards__card--dark-mode {
+  border: 1px solid #282828;
+  color: #fff;
 }
 
 .main__cards__card__img {
@@ -254,6 +269,12 @@ html {
   font-family: inherit;
 }
 
+.main__form__search--dark-mode {
+  background-color: #3500d3;
+  border-bottom: #282828;
+  color: #fff;
+}
+
 .main__form__search::-webkit-input-placeholder {
   letter-spacing: 0.5rem;
 }
@@ -286,6 +307,10 @@ html {
   color: #fff;
 }
 
+.main__form__btn--dark-mode {
+  background-color: #282828;
+}
+
 .main__form__btn:hover {
   background-color: #89b7c0;
 }
@@ -296,5 +321,87 @@ html {
 
 .invisible {
   opacity: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 6rem;
+  height: 3.4rem;
+  font-size: 2rem;
+}
+
+.switch__label {
+  position: absolute;
+  top: -40%;
+  right: -40%;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 30%;
+  left: 0;
+  right: 10%;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 1.6rem;
+  width: 1.6rem;
+  left: 0.4rem;
+  bottom: 0.4rem;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  -webkit-box-shadow: 0 0 1px #2196f3;
+          box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(2.6rem);
+          transform: translateX(2.6rem);
+}
+
+.slider.round {
+  border-radius: 3.4rem;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.about,
+.contact {
+  width: 100%;
+  height: 60vh;
+  font-size: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 /*# sourceMappingURL=index.css.map */

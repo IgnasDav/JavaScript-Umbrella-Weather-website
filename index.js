@@ -14,6 +14,8 @@ let forecastMain = document.createElement("div");
 const cards = document.createElement("div");
 const error = document.createElement("h2");
 const DATA_KEY = "data";
+const aboutDiv = document.createElement("div");
+const contactsDiv = document.createElement("div");
 
 //Adding clases
 error.classList.add("main__cards__error");
@@ -29,6 +31,11 @@ forecastCity.classList.add("main__video__forecast__city");
 forecastCurrentTemp.classList.add("main__video__forecast__currentTemp");
 forecastWind.classList.add("main__video__forecast__wind");
 forecastMain.classList.add("main__video__forecast__main");
+aboutDiv.classList.add("about");
+aboutDiv.textContent =
+  "This page was created as graduation work for JavaScript course";
+contactsDiv.classList.add("contact");
+contactsDiv.innerHTML = `My contacts <a href = "https://github.com/IgnasDav"> My Github<br> </a> <a href = "https://www.linkedin.com/in/ignas-davulis-883818223/"> My LinkedIn</a`;
 
 //Appending classes
 main.append(cards);
@@ -37,6 +44,7 @@ main.append(cards);
 document.querySelector(".nav__btn").addEventListener("click", () => {
   document.querySelector(".nav__list").classList.toggle("hidden");
 });
+const darkMode = [{ darkMode: true }];
 let newArr = [];
 let arr = [];
 const imgArr = [
@@ -311,4 +319,72 @@ window.addEventListener("DOMContentLoaded", () => {
     arr = JSON.parse(storedArr);
     renderCard();
   }
+});
+
+function toggleDarkMode() {
+  document.querySelector("header").classList.toggle("header--dark-mode");
+  document.querySelector("main").classList.toggle("main--dark-mode");
+  document
+    .querySelector(".main__form__btn")
+    .classList.toggle("main__form__btn--dark-mode");
+  document
+    .querySelector(".main__form__search")
+    .classList.toggle("main__form__search--dark-mode");
+
+  document
+    .querySelector(".main__cards__card")
+    .classList.toggle("main__cards__card--dark-mode");
+}
+function removeDarkMode() {
+  document.querySelector("header").classList.add("header--dark-mode");
+  document.querySelector("main").classList.add("main--dark-mode");
+  document
+    .querySelector(".main__form__btn")
+    .classList.add("main__form__btn--dark-mode");
+  document
+    .querySelector(".main__form__search")
+    .classList.add("main__form__search--dark-mode");
+
+  document
+    .querySelector(".main__cards__card")
+    .classList.add("main__cards__card--dark-mode");
+}
+document.querySelector(".slider.round").addEventListener("click", (e) => {
+  darkMode[0].darkMode = !darkMode[0].darkMode;
+  if (darkMode[0].darkMode) {
+    toggleDarkMode();
+  }
+  if (!darkMode[0].darkMode) {
+    removeDarkMode();
+  }
+});
+//Creating about and infor pages
+function hideMain() {
+  main.classList.add("hidden");
+}
+function addMain() {
+  main.classList.remove("hidden");
+}
+
+document.querySelector(".item--1").addEventListener("click", () => {
+  addMain();
+  if (document.querySelector(".contact") || document.querySelector(".about")) {
+    document.querySelector(".contact").remove();
+    document.querySelector(".about").remove();
+  }
+});
+document.querySelector(".item--2").addEventListener("click", () => {
+  hideMain();
+  if (document.querySelector(".contact")) {
+    document.querySelector(".contact").remove();
+  }
+  document.querySelector("body").append(aboutDiv);
+});
+document.querySelector(".item--3").addEventListener("click", () => {
+  hideMain();
+
+  if (document.querySelector(".about")) {
+    document.querySelector(".about").remove();
+  }
+  document.querySelector("body").append(contactsDiv);
 });

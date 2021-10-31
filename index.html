@@ -21,35 +21,46 @@
     <title>Umbrella Weather</title>
   </head>
   <body>
-    <header class="header">
+    <header class="header header--dark-mode">
       <h1 class="header__heading">
         Umbrella weather <i class="fas fa-umbrella"></i>
       </h1>
+
       <nav class="nav">
-        <i class="fas fa-bars nav__btn"></i>
+        <label class="switch">
+          <label class="switch__label">Dark/Light</label>
+          <input type="checkbox" class="switch__checkbox" />
+          <span class="slider round"></span>
+        </label>
+        <i class="fas fa-bars nav__btn nav__btn--dark-mode"></i>
         <ul class="nav__list hidden">
-          <li class="nav__list__item nav__list__item--acitve">
+          <li class="nav__list__item item--1">
             <a href="#">Home <i class="fas fa-home"></i></a>
           </li>
-          <li class="nav__list__item">
+          <li class="nav__list__item item--2">
             <a href="#">About <i class="fas fa-info"></i></a>
           </li>
-          <li class="nav__list__item">
+          <li class="nav__list__item item--3">
             <a href="#">Contact <i class="fas fa-address-book"></i></a>
           </li>
         </ul>
       </nav>
     </header>
-    <main class="main">
+    <main class="main main--dark-mode">
       <form action="#" class="main__form">
         <input
           type="search"
           name="search"
           id="search"
           placeholder="Search City"
-          class="main__form__search"
+          class="main__form__search main__form__search--dark-mode"
         />
-        <button type="submit" class="main__form__btn">Search</button>
+        <button
+          type="submit"
+          class="main__form__btn main__form__btn--dark-mode"
+        >
+          Search
+        </button>
       </form>
     </main>
     <script src="/index.js"></script>
