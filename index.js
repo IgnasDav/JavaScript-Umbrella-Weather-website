@@ -244,35 +244,12 @@ function renderCard() {
 
     function dragDrop(e) {
       e.preventDefault();
-
       arr.splice(0, 0, arr.splice(i, 1)[0]);
-
       renderCard();
     }
   });
 
-  //Drag functionality functions
-  function dragStart() {
-    setTimeout(() => this.classList.add("invisible"), 0);
-  }
-  function dragOver(e) {
-    // console.log(e);
-    e.preventDefault();
-  }
-  function dragEnd() {
-    this.classList.remove("invisible");
-  }
-  function dragEnter() {}
-  function dragLeave() {}
-  function dragDrop(e) {
-    if (e.target.innerHTML != card.innerHTML) {
-      // console.log(i);
-      console.log(card);
-      //Call render card function by switching up the items in the array
-    }
-  }
-}
-
+ 
 //Adding draggability
 
 function fetchData() {
