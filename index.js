@@ -4,7 +4,7 @@ let videoIndex = 0;
 const videoEl = document.createElement("video");
 const rightArrow = document.createElement("img");
 const leftArrow = document.createElement("img");
-const main = document.querySelector(".main");
+const main = selectEl(".main");
 const videoClass = document.createElement("div");
 const videoForecast = document.createElement("div");
 let forecastCity = document.createElement("div");
@@ -41,8 +41,8 @@ contactsDiv.innerHTML = `My contacts <a href = "https://github.com/IgnasDav"> My
 main.append(cards);
 //Nav button
 
-document.querySelector(".nav__btn").addEventListener("click", () => {
-  document.querySelector(".nav__list").classList.toggle("hidden");
+selectEl(".nav__btn").addEventListener("click", () => {
+  selectEl(".nav__list").classList.toggle("hidden");
 });
 const darkMode = [{ darkMode: true }];
 let newArr = [];
@@ -96,7 +96,9 @@ const videoArr = [
     src: "https://storage.coverr.co/videos/2UF3mTty2vsAXbIPxLH5vZ1cIQyYyCza?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6Ijg3NjdFMzIzRjlGQzEzN0E4QTAyIiwiaWF0IjoxNjM0ODIxMDIyfQ.K53gX22g_gxsK5xuwlfji8P-leD-mxygB73j0ZdC_fA",
   },
 ];
-
+function selectEl(element) {
+  return document.querySelector(element);
+}
 //Making video slides
 function swipingRight() {
   videoIndex === 4 ? (videoIndex = 0) : videoIndex++;
@@ -159,18 +161,16 @@ leftArrow.addEventListener("click", () => {
   drawForecast();
 });
 
-document
-  .querySelector(".main__form__btn")
-  .addEventListener("click", (event) => {
-    event.preventDefault();
-    if (document.querySelector("#search").value === "") {
-      error.innerHTML = "Empty or wrong value";
-      document.querySelector(".main__form").append(error);
-    } else {
-      error.remove();
-      fetchData();
-    }
-  });
+selectEl(".main__form__btn").addEventListener("click", (event) => {
+  event.preventDefault();
+  if (selectEl("#search").value === "") {
+    error.innerHTML = "Empty or wrong value";
+    selectEl(".main__form").append(error);
+  } else {
+    error.remove();
+    fetchData();
+  }
+});
 function renderCard() {
   cards.innerHTML = null;
   if (Array.isArray(arr)) {
@@ -278,7 +278,7 @@ function renderCard() {
 function fetchData() {
   fetch(
     `http://api.openweathermap.org/data/2.5/weather?q=${
-      document.querySelector("#search").value
+      selectEl("#search").value
     }&appid=06c40b664273d82a56d487ca67529fb8`
   )
     .then((response) => {
@@ -286,14 +286,14 @@ function fetchData() {
     })
     .then(
       (result) => {
-        const value = document.querySelector("#search").value;
+        const value = selectEl("#search").value;
         if (
           arr.some((item) => {
             return item.city.toLowerCase() === value.toLowerCase();
           })
         ) {
           error.innerHTML = "There is a card with that name";
-          document.querySelector(".main__form").append(error);
+          selectEl(".main__form").append(error);
         } else {
           error.remove();
           arr.push({
@@ -322,34 +322,28 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function toggleDarkMode() {
-  document.querySelector("header").classList.toggle("header--dark-mode");
-  document.querySelector("main").classList.toggle("main--dark-mode");
-  document
-    .querySelector(".main__form__btn")
-    .classList.toggle("main__form__btn--dark-mode");
-  document
-    .querySelector(".main__form__search")
-    .classList.toggle("main__form__search--dark-mode");
+  selectEl("header").classList.toggle("header--dark-mode");
+  selectEl("main").classList.toggle("main--dark-mode");
+  selectEl(".main__form__btn").classList.toggle("main__form__btn--dark-mode");
+  selectEl(".main__form__search").classList.toggle(
+    "main__form__search--dark-mode"
+  );
 
-  document
-    .querySelector(".main__cards__card")
-    .classList.toggle("main__cards__card--dark-mode");
+  selectEl(".main__cards__card").classList.toggle(
+    "main__cards__card--dark-mode"
+  );
 }
 function removeDarkMode() {
-  document.querySelector("header").classList.add("header--dark-mode");
-  document.querySelector("main").classList.add("main--dark-mode");
-  document
-    .querySelector(".main__form__btn")
-    .classList.add("main__form__btn--dark-mode");
-  document
-    .querySelector(".main__form__search")
-    .classList.add("main__form__search--dark-mode");
+  selectEl("header").classList.add("header--dark-mode");
+  selectEl("main").classList.add("main--dark-mode");
+  selectEl(".main__form__btn").classList.add("main__form__btn--dark-mode");
+  selectEl(".main__form__search").classList.add(
+    "main__form__search--dark-mode"
+  );
 
-  document
-    .querySelector(".main__cards__card")
-    .classList.add("main__cards__card--dark-mode");
+  selectEl(".main__cards__card").classList.add("main__cards__card--dark-mode");
 }
-document.querySelector(".slider.round").addEventListener("click", (e) => {
+selectEl(".slider.round").addEventListener("click", (e) => {
   darkMode[0].darkMode = !darkMode[0].darkMode;
   if (darkMode[0].darkMode) {
     toggleDarkMode();
@@ -366,25 +360,25 @@ function addMain() {
   main.classList.remove("hidden");
 }
 
-document.querySelector(".item--1").addEventListener("click", () => {
+selectEl(".item--1").addEventListener("click", () => {
   addMain();
-  if (document.querySelector(".contact") || document.querySelector(".about")) {
-    document.querySelector(".contact").remove();
-    document.querySelector(".about").remove();
+  if (selectEl(".contact") || selectEl(".about")) {
+    selectEl(".contact").remove();
+    selectEl(".about").remove();
   }
 });
-document.querySelector(".item--2").addEventListener("click", () => {
+selectEl(".item--2").addEventListener("click", () => {
   hideMain();
-  if (document.querySelector(".contact")) {
-    document.querySelector(".contact").remove();
+  if (selectEl(".contact")) {
+    selectEl(".contact").remove();
   }
-  document.querySelector("body").append(aboutDiv);
+  selectEl("body").append(aboutDiv);
 });
-document.querySelector(".item--3").addEventListener("click", () => {
+selectEl(".item--3").addEventListener("click", () => {
   hideMain();
 
-  if (document.querySelector(".about")) {
-    document.querySelector(".about").remove();
+  if (selectEl(".about")) {
+    selectEl(".about").remove();
   }
-  document.querySelector("body").append(contactsDiv);
+  selectEl("body").append(contactsDiv);
 });
